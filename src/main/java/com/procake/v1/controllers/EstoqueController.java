@@ -24,6 +24,7 @@ import com.procake.utils.MediaType;
 import com.procake.v1.dtos.EstoqueCompletoDTO;
 import com.procake.v1.dtos.EstoqueCompletoPesquisaDTO;
 import com.procake.v1.dtos.EstoqueDTO;
+import com.procake.v1.models.EstoqueModel;
 
 import jakarta.validation.Valid;
 
@@ -54,6 +55,14 @@ public class EstoqueController {
 		logger.warn("Buscando estoque com o ID" + id);
 		
 		return ResponseEntity.ok().body(service.buscarPorID(UUID.fromString(id)));
+	}
+	
+	@GetMapping(value = "listar-insumo-id/{id}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public ResponseEntity<List<EstoqueModel>> buscarPorInsumoID(@PathVariable(value = "id") String id) {
+		
+		logger.warn("Buscando estoque pelo insumo com o ID" + id);
+		
+		return ResponseEntity.ok().body(service.listarPorIdInsumo(UUID.fromString(id)));
 	}
 	
 	@GetMapping(value = "pesquisar/{nome}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

@@ -96,7 +96,6 @@ public class InsumoServicesImpl implements IInsumoServices{
 		model.setNome(insumo.getNome());
 		model.setEnabled(insumo.isEnabled());
 		model.setDescricao(insumo.getDescricao());
-		model.setUnidadeMedida(insumo.getUnidadeMedida());
 		ToUpper.UPPER_INSUMO_MODEL(model);
 		model = repository.saveAndFlush(model);
 

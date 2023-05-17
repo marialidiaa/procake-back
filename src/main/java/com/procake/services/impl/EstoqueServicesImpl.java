@@ -40,9 +40,15 @@ public class EstoqueServicesImpl implements IEstoqueServices {
 
 	@Override
 	public Page<EstoqueDTO> listarTodos(Pageable pageable) {
-		Page<EstoqueModel> page = estoqueRepository.findAllEnabled(pageable);
+		Page<EstoqueModel> page = estoqueRepository.buscarTodosAtivos(pageable);
 		return page.map(e -> SimpleMapper.INSTANCE.estoque2EstoqueDTO(e));
 	}
+	
+	@Override
+	public List<EstoqueModel> listarPorIdInsumo(UUID id) {
+		return estoqueRepository.buscarPorInsumoAtivo(id);
+	}
+
 
 	@Override
 	public EstoqueDTO buscarPorID(UUID id) {

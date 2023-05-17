@@ -12,9 +12,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.procake.exceptions.DadosInvalidosException;
+import com.procake.exceptions.EmailException;
 import com.procake.exceptions.RecursoNaoEncontradoException;
 import com.procake.mappers.SimpleMapper;
 import com.procake.repositories.UsuarioRepositories;
+import com.procake.services.IEmailServices;
 import com.procake.services.IGrupoAcessoServices;
 import com.procake.services.IUsuariosServices;
 import com.procake.utils.GeradorSenha;
@@ -31,12 +33,14 @@ public class UsuariosServicesImpl implements IUsuariosServices {
 	private UsuarioRepositories usuarioRepository;
 	private PasswordEncoder passwordEncoder;
 	private IGrupoAcessoServices grupoAcessoService;
+	private IEmailServices emailServices;
 
 	public UsuariosServicesImpl(UsuarioRepositories usuarioRepository, PasswordEncoder passwordEncoder,
-			IGrupoAcessoServices grupoAcessoService) {
+			IGrupoAcessoServices grupoAcessoService, IEmailServices emailServices) {
 		this.usuarioRepository = usuarioRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.grupoAcessoService = grupoAcessoService;
+		this.emailServices = emailServices;
 	}
 
 	@Override
@@ -81,14 +85,24 @@ public class UsuariosServicesImpl implements IUsuariosServices {
 	public UsuarioDTO inserir(UsuarioDTO insertUser) {
 		
 		String senha = GeradorSenha.getSenha();
+		
 		insertUser.setGrupoAcesso(grupoAcessoService.buscarPorID(insertUser.getGrupoAcesso().getId()));
 		UsuarioModel user = new UsuarioModel(insertUser.getNome(), insertUser.getUsername(), 
 				passwordEncoder.encode(senha),insertUser.getCpfCnpj(), insertUser.getTelefone(), true,
 				SimpleMapper.INSTANCE.grupoAcessoDTO2GrupoAcesso(insertUser.getGrupoAcesso())); 
-				
+		
 		ToUpper.UPPER_USUARIO_MODEL(user);
+		
+		try {
+			emailServices.sendEmail(
+					user.getUsername(), 
+					"SENHA DE ACESSO PROCAKE", 
+					"Olá, sua senha de acesso ao procake é: " + senha);
+		
+		} catch (Exception e) {
+			throw new EmailException("Erro ao enviar e-mail com a seguinte mensagem: " + e.getMessage());
+		}
 		user = usuarioRepository.save(user);
-
 		return SimpleMapper.INSTANCE.usuario2UsuarioDTO(user);
 	}
 
@@ -98,7 +112,23 @@ public class UsuariosServicesImpl implements IUsuariosServices {
 		
 		UsuarioModel model = usuarioRepository.findById(id)
 				.orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado com esse id: " + id));
-
+		try {
+			if(model.getUsername() != usuario.getUsername()) {
+				String username = model.getUsername();
+				Thread newThread = new Thread(() -> {
+				emailServices.sendEmail(
+						username, 
+						"Alerta PROCAKE - ALTERAÇÃO DE E-MAIL", 
+						"Olá, seu email foi alterado para o seguinte: " + username + "\n\n\n\n\n" +
+						"Caso for verdadeiro, desconsiderar essa mensagem");
+				});
+				
+				newThread.start();
+			}
+			
+		} catch (Exception e) {
+			throw new EmailException("Erro ao enviar e-mail com a seguinte mensagem: " + e.getMessage());
+		}
 		model.setNome(usuario.getNome());
 		model.setUsername(usuario.getUsername());
 		model.setTelefone(usuario.getTelefone());
@@ -106,7 +136,6 @@ public class UsuariosServicesImpl implements IUsuariosServices {
 		model.setEnabled(usuario.getEnabled());
 		ToUpper.UPPER_USUARIO_MODEL(model);
 		model = usuarioRepository.saveAndFlush(model);
-
 		return SimpleMapper.INSTANCE.usuario2UsuarioDTO(model);
 	}
 

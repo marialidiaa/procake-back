@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.procake.v1.models.enums.Tipo;
 
 import jakarta.persistence.Column;
@@ -49,6 +50,7 @@ public class EstoqueModel implements Serializable {
 	@JoinColumn(name = "usuario_alteracao_id")
 	private UsuarioModel usuarioAlteracao;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "insumo_id", nullable = false)
 	private InsumoModel insumo;

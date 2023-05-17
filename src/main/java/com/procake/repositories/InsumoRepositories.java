@@ -12,7 +12,7 @@ import com.procake.v1.models.InsumoModel;
 
 public interface InsumoRepositories extends JpaRepository<InsumoModel, UUID>{
 	
-	@Query("SELECT U FROM InsumoModel U WHERE U.enabled = TRUE")
+	@Query("SELECT I FROM InsumoModel I WHERE I.enabled = TRUE")
 	Page<InsumoModel> listarTodosAtivos(Pageable pageable);
 	
 	@Query("SELECT U FROM InsumoModel U WHERE U.enabled = FALSE")

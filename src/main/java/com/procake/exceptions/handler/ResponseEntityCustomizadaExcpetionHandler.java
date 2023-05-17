@@ -23,6 +23,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.procake.exceptions.DadosInvalidosException;
+import com.procake.exceptions.EmailException;
 import com.procake.exceptions.OperacaoInvalidaException;
 import com.procake.exceptions.RecursoNaoEncontradoException;
 import com.procake.exceptions.ErroPadrao;
@@ -134,6 +135,17 @@ public class ResponseEntityCustomizadaExcpetionHandler extends ResponseEntityExc
 	public ResponseEntity<ErroPadrao> invalidData(DadosInvalidosException e, HttpServletRequest request) {
 
 		String error = "Operação invalida, o usuário não é o mesmo da alteração.";
+		HttpStatus status = HttpStatus.FORBIDDEN;
+		ErroPadrao err = new ErroPadrao(Instant.now(), status.value(), error, e.getMessage(),
+				request.getRequestURI());
+
+		return ResponseEntity.status(status).body(err);
+	}
+	
+	@ExceptionHandler(EmailException.class)
+	public ResponseEntity<ErroPadrao> invalidData(EmailException e, HttpServletRequest request) {
+
+		String error = "Erro ao enviar e-mail.";
 		HttpStatus status = HttpStatus.FORBIDDEN;
 		ErroPadrao err = new ErroPadrao(Instant.now(), status.value(), error, e.getMessage(),
 				request.getRequestURI());

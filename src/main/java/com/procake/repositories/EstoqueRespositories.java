@@ -14,7 +14,7 @@ import com.procake.v1.models.EstoqueModel;
 public interface EstoqueRespositories extends JpaRepository<EstoqueModel, UUID> {
 
 	@Query("SELECT E FROM EstoqueModel E WHERE E.quantidade > 0 AND E.tipo = 0")
-	Page<EstoqueModel> findAllEnabled(Pageable page);
+	Page<EstoqueModel> buscarTodosAtivos(Pageable page);
 
 	@Query("SELECT E FROM EstoqueModel E WHERE E.insumo.nome LIKE %:nome% AND E.quantidade > 0 AND E.tipo = 0")
 	List<EstoqueModel> buscarPorNomeAtivo(String nome);

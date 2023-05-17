@@ -22,19 +22,21 @@ public class InsumoDTO implements Serializable {
 	@NotBlank(message = "Descrição não pode ser vazio")
 	private String descricao;
 	private boolean enabled;
+	private Double quantidade;
 
 	public InsumoDTO() {
 
 	}
 
 	public InsumoDTO(UUID id, BigInteger codigo, String nome, UnidadeMedida unidadeMedida, String descricao,
-			boolean enabled) {
+			boolean enabled, Double quantidade) {
 		this.id = id;
 		this.codigo = codigo;
 		this.nome = nome;
 		this.unidadeMedida = unidadeMedida;
 		this.descricao = descricao;
 		this.enabled = enabled;
+		this.quantidade = quantidade;
 	}
 
 	public UUID getId() {
@@ -85,4 +87,12 @@ public class InsumoDTO implements Serializable {
 		this.codigo = codigo;
 	}
 
+	public Double getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(Double qtd) {
+		this.quantidade = qtd;
+	}
+	
 }
