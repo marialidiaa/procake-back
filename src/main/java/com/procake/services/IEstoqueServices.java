@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.procake.v1.dtos.EstoqueCompletoDTO;
 import com.procake.v1.dtos.EstoqueCompletoPesquisaDTO;
 import com.procake.v1.dtos.EstoqueDTO;
+import com.procake.v1.models.EstoqueModel;
 
 @Service
 public interface IEstoqueServices {
@@ -17,6 +18,8 @@ public interface IEstoqueServices {
 	public Page<EstoqueDTO> listarTodos(Pageable pageable);
 
 	public EstoqueDTO buscarPorID(UUID id);
+	
+	public List<EstoqueModel> listarPorIdInsumo(UUID id);
 
 	public List<EstoqueDTO> buscarPorNomeAtivo(String nome);
 
