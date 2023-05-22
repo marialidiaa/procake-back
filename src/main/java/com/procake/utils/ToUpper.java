@@ -31,6 +31,18 @@ public class ToUpper {
 	public static void UPPER_FORNECEDORES_MODEL(FornecedoresModel model) {
 		model.setNome(model.getNome().trim().toUpperCase());
 		model.setEmail(model.getEmail().trim().toUpperCase());
+		model.setBairro(model.getBairro().trim().toUpperCase());
+		model.setCidade(model.getCidade().trim().toUpperCase());
+		if (model.getComplemento()!= null) {
+		model.setComplemento(model.getComplemento().trim().toUpperCase());
+		}
+		if (model.getRua()!= null) {
+		model.setRua(model.getRua().trim().toUpperCase());
+		}
+		model.setEstado(model.getEstado().trim().toUpperCase());
+		model.setNumero(model.getNumero().trim().toUpperCase());
+		
+		
 	}
 	
 	public static void UPPER_CLIENTE_MODEL(ClienteModel model) {
@@ -43,5 +55,6 @@ public class ToUpper {
 		model.setRua(model.getRua().trim().toUpperCase());}
 		if (model.getComplemento()!= null) {
 		model.setComplemento(model.getComplemento().trim().toUpperCase());}
+		model.setNumero(model.getNumero().trim().toUpperCase());
 	}
 }

@@ -1,4 +1,4 @@
-package com.procake.v1.dtos;
+	package com.procake.v1.dtos;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -26,8 +26,8 @@ public class ClienteDTO implements Serializable {
 	private String cpfCnpj;
 	@NotNull(message = "O campo não pode ser vazio")
 	private Boolean enabled;
-	private String rua;
 	@NotBlank(message = "O campo não pode ser vazio")
+	private String rua;
 	private String numero;
 	@NotBlank(message = "O campo não pode ser vazio")
 	private String bairro;

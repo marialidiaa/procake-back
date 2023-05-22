@@ -76,13 +76,17 @@ public class ClienteServicesImpl implements IClienteServices{
 		ClienteModel model = repository.findById(id)
 				.orElseThrow(() -> new RecursoNaoEncontradoException("Cliente não encontrado com esse id: " + id));
 
-		model.setNome(cliente.getNome());
-		model.setEnabled(cliente.getEnabled());
 		model.setBairro(cliente.getBairro());
+		model.setCep(cliente.getCep());
 		model.setCidade(cliente.getCidade());
 		model.setComplemento(cliente.getComplemento());
-		model.setRua(cliente.getRua());
+		model.setCpfCnpj(cliente.getCpfCnpj());
 		model.setEmail(cliente.getEmail());
+		model.setEstado(cliente.getEstado());
+		model.setNome(cliente.getNome());
+		model.setNumero(cliente.getNumero());
+		model.setRua(cliente.getRua());
+		model.setTelefone(cliente.getTelefone());
 		ToUpper.UPPER_CLIENTE_MODEL(model);
 		model = repository.saveAndFlush(model);
 

@@ -1,4 +1,4 @@
-package com.procake.v1.models;
+ package com.procake.v1.models;
 
 import java.io.Serializable;
 import java.util.List;

@@ -30,9 +30,9 @@ public class ClienteModel implements Serializable {
 	private String cpfCnpj;
 	@Column(nullable = false, name = "enabled")
 	private Boolean enabled;
-	@Column(nullable = true, name = "rua")
+	@Column(nullable = false, name = "rua")
 	private String rua;
-	@Column(nullable = false, name = "numero")
+	@Column(nullable = true, name = "numero")
 	private String numero;
 	@Column(nullable = false, name = "bairro")
 	private String bairro;
@@ -42,7 +42,7 @@ public class ClienteModel implements Serializable {
 	private String cidade;
 	@Column(nullable = false, name = "estado")
 	private String estado;
-	@Column(nullable = false, name = "complemento")
+	@Column(nullable = true, name = "complemento")
 	private String complemento;
 	
 	

@@ -76,11 +76,19 @@ public class FornecedoresServicesImpl implements IFornecedoresServices{
 		FornecedoresModel model = repository.findById(id)
 				.orElseThrow(() -> new RecursoNaoEncontradoException("Fornecedor não encontrado com esse id: " + id));
 
-		model.setNome(fornecedores.getNome());
+		model.setBairro(fornecedores.getBairro());
+		model.setCep(fornecedores.getCep());
+		model.setCidade(fornecedores.getCidade());
+		model.setComplemento(fornecedores.getComplemento());
+		model.setCpfCnpj(fornecedores.getCpfCnpj());
 		model.setEmail(fornecedores.getEmail());
-		model.setEnabled(fornecedores.isEnabled());
+		model.setEstado(fornecedores.getEstado());
+		model.setNome(fornecedores.getNome());
+		model.setNumero(fornecedores.getNumero());
+		model.setRua(fornecedores.getRua());
+		model.setTelefone(fornecedores.getTelefone());
 		ToUpper.UPPER_FORNECEDORES_MODEL(model);
-		model = repository.saveAndFlush(model);
+		model = repository.saveAndFlush(model);	
 
 		return SimpleMapper.INSTANCE.fornecedores2FornecedoresDTO(model);
 	}
