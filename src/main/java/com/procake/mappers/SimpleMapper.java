@@ -1,24 +1,24 @@
 package com.procake.mappers;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import com.procake.v1.dtos.ClienteDTO;
-import com.procake.v1.dtos.EstoqueCompletoDTO;
-import com.procake.v1.dtos.EstoqueDTO;
 import com.procake.v1.dtos.FornecedoresDTO;
 import com.procake.v1.dtos.GrupoAcessoDTO;
 import com.procake.v1.dtos.InsumoDTO;
+import com.procake.v1.dtos.LancamentoDTO;
 import com.procake.v1.dtos.MarcaDTO;
+import com.procake.v1.dtos.NotaFiscalDTO;
 import com.procake.v1.dtos.RoleDTO;
 import com.procake.v1.dtos.UsuarioDTO;
 import com.procake.v1.models.ClienteModel;
-import com.procake.v1.models.EstoqueModel;
 import com.procake.v1.models.FornecedoresModel;
 import com.procake.v1.models.GrupoAcessoModel;
 import com.procake.v1.models.InsumoModel;
+import com.procake.v1.models.LancamentoModel;
 import com.procake.v1.models.MarcaModel;
+import com.procake.v1.models.NotaFiscalModel;
 import com.procake.v1.models.RoleModel;
 import com.procake.v1.models.UsuarioModel;
 
@@ -42,16 +42,6 @@ public interface SimpleMapper {
 	InsumoDTO insumo2InsumoDTO(InsumoModel insumo);
 
 	InsumoModel insumoDTO2Insumo(InsumoDTO insumo);
-
-	@Mapping(source = "estoque.usuarioInsercao.nome", target = "usuarioInsercao")
-	EstoqueDTO estoque2EstoqueDTO(EstoqueModel estoque);
-
-	@Mapping(source = "estoque.usuarioInsercao.nome", target = "usuarioInsercao")
-	@Mapping(source = "estoque.usuarioAlteracao.nome", target = "usuarioAlteracao")
-	EstoqueCompletoDTO estoque2EstoqueCompletoDTO(EstoqueModel estoque);
-
-	@Mapping(source = "estoque.usuarioInsercao", target = "usuarioInsercao.nome")
-	EstoqueModel estoqueDTO2Estoque(EstoqueDTO estoque);
 	
 	MarcaDTO marca2MarcaDTO(MarcaModel marca);
 
@@ -63,6 +53,13 @@ public interface SimpleMapper {
 	
 	ClienteDTO cliente2ClienteDTO(ClienteModel cliente);
 	
-	ClienteModel clienteDTO2cliente (ClienteDTO cliente);
+	ClienteModel clienteDTO2cliente(ClienteDTO cliente);
 	
+	NotaFiscalDTO nota2NotaDTO(NotaFiscalModel nota);
+	
+	NotaFiscalModel notaDTO2Nota(NotaFiscalDTO nota);
+	
+	LancamentoDTO lancamento2LancamentoDTO (LancamentoModel lancamento);
+	
+	LancamentoModel lancamentoDTO2Lancamento (LancamentoDTO lancamento);
 }

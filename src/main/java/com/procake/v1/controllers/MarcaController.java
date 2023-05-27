@@ -38,7 +38,7 @@ public class MarcaController {
 	}
 	@GetMapping(produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public ResponseEntity<Page<MarcaDTO>> listarTodos(
-			@PageableDefault(page = 0, size = 1, sort = "nome", direction = Direction.ASC) Pageable pageable) {
+			@PageableDefault(page = 0, size = 100, sort = "nome", direction = Direction.ASC) Pageable pageable) {
 		
 		logger.warn("Listando todos as Marcas");
 		
@@ -47,7 +47,7 @@ public class MarcaController {
 	
 	@GetMapping(path = "/desativados", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public ResponseEntity<Page<MarcaDTO>> listarTodosDesativados(
-			@PageableDefault(page = 0, size = 1, sort = "nome", direction = Direction.ASC) Pageable pageable) {
+			@PageableDefault(page = 0, size = 100, sort = "nome", direction = Direction.ASC) Pageable pageable) {
 		
 		logger.warn("Listando todos as marcas desativadas");
 		
@@ -56,7 +56,7 @@ public class MarcaController {
 	
 	@GetMapping(path = "/ativas", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public ResponseEntity<Page<MarcaDTO>> listarTodosAtivos(
-			@PageableDefault(page = 0, size = 1, sort = "nome", direction = Direction.ASC) Pageable pageable) {
+			@PageableDefault(page = 0, size = 100, sort = "nome", direction = Direction.ASC) Pageable pageable) {
 		
 		logger.warn("Listando todos as marcas ativas");
 		

@@ -52,7 +52,7 @@ public class UsuarioModel implements UserDetails, Serializable {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "usuarioInsercao", fetch = FetchType.EAGER)
-	private List<EstoqueModel> estoque = new ArrayList<>();
+	private List<LancamentoModel> estoque = new ArrayList<>();
 
 	public UsuarioModel() {
 	}

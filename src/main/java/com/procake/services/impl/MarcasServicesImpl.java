@@ -66,6 +66,7 @@ public class MarcasServicesImpl implements IMarcasServices{
 		MarcaModel model = SimpleMapper.INSTANCE.marcaDTO2Marca(marca);
 		
 		ToUpper.UPPER_MARCA_MODEL(model);
+		model.setEnabled(true);
 		model = repository.saveAndFlush(model);
 
 		return SimpleMapper.INSTANCE.marca2MarcaDTO(model);

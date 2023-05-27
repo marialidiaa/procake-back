@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.procake.v1.dtos.InsumoDTO;
+import com.procake.v1.dtos.LancamentoDTO;
 
 @Service
 public interface IInsumoServices {
@@ -27,4 +28,6 @@ public interface IInsumoServices {
 	public InsumoDTO atualizar(UUID id, InsumoDTO insumo);
 
 	public List<InsumoDTO> buscarAtivoPorNome(String nome);
+
+	public List<LancamentoDTO> listarLancamento(UUID id);
 }

@@ -2,23 +2,18 @@ package com.procake.v1.models;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.procake.v1.models.enums.UnidadeMedida;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -43,10 +38,6 @@ public class InsumoModel implements Serializable {
 	@Column(name = "enabled", nullable = false, unique = false)
 	private boolean enabled;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "insumo", fetch = FetchType.EAGER)
-	private List<EstoqueModel> estoque = new ArrayList<>();
-
 	public InsumoModel() {
 
 	}
@@ -59,14 +50,6 @@ public class InsumoModel implements Serializable {
 		this.unidadeMedida = unidadeMedida;
 		this.descricao = descricao;
 		this.enabled = enabled;
-	}
-
-	public List<EstoqueModel> getEstoque() {
-		return estoque;
-	}
-
-	public void setEstoque(List<EstoqueModel> estoque) {
-		this.estoque = estoque;
 	}
 
 	public UUID getId() {

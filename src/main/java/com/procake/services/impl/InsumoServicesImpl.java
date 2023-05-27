@@ -13,27 +13,28 @@ import org.springframework.stereotype.Component;
 import com.procake.exceptions.OperacaoInvalidaException;
 import com.procake.exceptions.RecursoNaoEncontradoException;
 import com.procake.mappers.SimpleMapper;
-import com.procake.repositories.EstoqueRespositories;
 import com.procake.repositories.InsumoRepositories;
-import com.procake.services.IEstoqueServices;
+import com.procake.repositories.LancamentoRepositories;
 import com.procake.services.IInsumoServices;
+import com.procake.services.ILancamentoServices;
 import com.procake.utils.ToUpper;
-import com.procake.v1.controllers.EstoqueController;
 import com.procake.v1.dtos.InsumoDTO;
-import com.procake.v1.models.EstoqueModel;
+import com.procake.v1.dtos.LancamentoDTO;
 import com.procake.v1.models.InsumoModel;
+import com.procake.v1.models.LancamentoModel;
 
 @Component
-public class InsumoServicesImpl implements IInsumoServices{
+public class InsumoServicesImpl implements IInsumoServices {
 
 	private InsumoRepositories repository;
-	private EstoqueRespositories estoqueRepository;
-	private IEstoqueServices estoqueServices;
+	private ILancamentoServices lancamentoServices;
+	private LancamentoRepositories lancamentoRepository;
 
-	public InsumoServicesImpl(InsumoRepositories repository, EstoqueRespositories estoqueRepository, IEstoqueServices estoqueServices) {
+	public InsumoServicesImpl(InsumoRepositories repository, ILancamentoServices lancamentoServices,
+			LancamentoRepositories lancamentoRepository) {
 		this.repository = repository;
-		this.estoqueRepository = estoqueRepository;
-		this.estoqueServices = estoqueServices;
+		this.lancamentoServices = lancamentoServices;
+		this.lancamentoRepository = lancamentoRepository;
 	}
 
 	Logger logger = LoggerFactory.getLogger(InsumoServicesImpl.class);
@@ -48,10 +49,10 @@ public class InsumoServicesImpl implements IInsumoServices{
 	public Page<InsumoDTO> listarTodos(Pageable pageable) {
 		Page<InsumoModel> page = repository.findAll(pageable);
 		Page<InsumoDTO> pageDTO = page.map(i -> SimpleMapper.INSTANCE.insumo2InsumoDTO(i));
-		for(int i = 0; i < pageDTO.getTotalElements(); i ++) {
-			List<EstoqueModel> listEstoqueModel = estoqueServices.listarPorIdInsumo(pageDTO.toList().get(i).getId());
+		for (int i = 0; i < pageDTO.getTotalElements(); i++) {
+			List<LancamentoModel> listEstoqueModel = lancamentoServices.listarPorIdInsumo(pageDTO.toList().get(i).getId());
 			Double quantidade = 0.0;
-			for(int j = 0; j < listEstoqueModel.size(); j ++) {
+			for (int j = 0; j < listEstoqueModel.size(); j++) {
 				quantidade += listEstoqueModel.get(j).getQuantidade();
 			}
 			pageDTO.toList().get(i).setQuantidade(quantidade);
@@ -64,10 +65,10 @@ public class InsumoServicesImpl implements IInsumoServices{
 		Page<InsumoModel> page = repository.listarTodosAtivos(pageable);
 
 		Page<InsumoDTO> pageDTO = page.map(i -> SimpleMapper.INSTANCE.insumo2InsumoDTO(i));
-		for(int i = 0; i < pageDTO.getTotalElements(); i ++) {
-			List<EstoqueModel> listEstoqueModel = estoqueServices.listarPorIdInsumo(pageDTO.toList().get(i).getId());
+		for (int i = 0; i < pageDTO.getTotalElements(); i++) {
+			List<LancamentoModel> listEstoqueModel = lancamentoServices.listarPorIdInsumo(pageDTO.toList().get(i).getId());
 			Double quantidade = 0.0;
-			for(int j = 0; j < listEstoqueModel.size(); j ++) {
+			for (int j = 0; j < listEstoqueModel.size(); j++) {
 				quantidade += listEstoqueModel.get(j).getQuantidade();
 			}
 			pageDTO.toList().get(i).setQuantidade(quantidade);
@@ -79,10 +80,10 @@ public class InsumoServicesImpl implements IInsumoServices{
 	public Page<InsumoDTO> listarTodosDesativados(Pageable pageable) {
 		Page<InsumoModel> page = repository.listarTodosDesativados(pageable);
 		Page<InsumoDTO> pageDTO = page.map(i -> SimpleMapper.INSTANCE.insumo2InsumoDTO(i));
-		for(int i = 0; i < pageDTO.getTotalElements(); i ++) {
-			List<EstoqueModel> listEstoqueModel = estoqueServices.listarPorIdInsumo(pageDTO.toList().get(i).getId());
+		for (int i = 0; i < pageDTO.getTotalElements(); i++) {
+			List<LancamentoModel> listEstoqueModel = lancamentoServices.listarPorIdInsumo(pageDTO.toList().get(i).getId());
 			Double quantidade = 0.0;
-			for(int j = 0; j < listEstoqueModel.size(); j ++) {
+			for (int j = 0; j < listEstoqueModel.size(); j++) {
 				quantidade += listEstoqueModel.get(j).getQuantidade();
 			}
 			pageDTO.toList().get(i).setQuantidade(quantidade);
@@ -93,23 +94,23 @@ public class InsumoServicesImpl implements IInsumoServices{
 	@Override
 	public List<InsumoDTO> buscarPorNome(String nome) {
 
-		if(nome.equals("undefined")) {
+		if (nome.equals("undefined")) {
 			nome = " ";
 		}
 
 		List<InsumoModel> listInsumo = repository.buscarPorNome(nome.trim().toUpperCase());
-		List<InsumoDTO> list = new ArrayList<>();	
+		List<InsumoDTO> list = new ArrayList<>();
 		listInsumo.forEach(item -> list.add(SimpleMapper.INSTANCE.insumo2InsumoDTO(item)));
-		
-		for(int i = 0; i < list.size(); i ++) {
-			List<EstoqueModel> listEstoqueModel = estoqueServices.listarPorIdInsumo(list.get(i).getId());
+
+		for (int i = 0; i < list.size(); i++) {
+			List<LancamentoModel> listEstoqueModel = lancamentoServices.listarPorIdInsumo(list.get(i).getId());
 			Double quantidade = 0.0;
-			for(int j = 0; j < listEstoqueModel.size(); j ++) {
+			for (int j = 0; j < listEstoqueModel.size(); j++) {
 				quantidade += listEstoqueModel.get(j).getQuantidade();
 			}
 			list.get(i).setQuantidade(quantidade);
 		}
-	
+
 		return list;
 	}
 
@@ -130,12 +131,13 @@ public class InsumoServicesImpl implements IInsumoServices{
 		InsumoModel model = repository.findById(id)
 				.orElseThrow(() -> new RecursoNaoEncontradoException("Insumo não encontrado com esse id: " + id));
 
-		//Atualização de status do insumo
-		if(insumo.isEnabled() != model.isEnabled()) {
-			List<EstoqueModel> estoque = estoqueRepository.buscarPorInsumoAtivo(model.getId());
+		// Atualização de status do insumo
+		if (insumo.isEnabled() != model.isEnabled()) {
+			List<LancamentoModel> estoque = lancamentoRepository.buscarPorInsumoQuantidadeMaior0(model.getId());
 
-			if(estoque.size() > 0) {
-				throw new OperacaoInvalidaException("Para desativar o insumo é preciso que o estoque dele esteja zerado");
+			if (estoque.size() > 0) {
+				throw new OperacaoInvalidaException(
+						"Para desativar o insumo é preciso que o estoque dele esteja zerado");
 			}
 		}
 
@@ -150,13 +152,21 @@ public class InsumoServicesImpl implements IInsumoServices{
 
 	@Override
 	public List<InsumoDTO> buscarAtivoPorNome(String nome) {
-		if(nome.equals("undefined")) {
+		if (nome.equals("undefined")) {
 			nome = " ";
 		}
 
 		List<InsumoModel> listUser = repository.buscarAtivoPorNome(nome.trim().toUpperCase());
-		List<InsumoDTO> list = new ArrayList<>();	
+		List<InsumoDTO> list = new ArrayList<>();
 		listUser.forEach(item -> list.add(SimpleMapper.INSTANCE.insumo2InsumoDTO(item)));
+		return list;
+	}
+
+	@Override
+	public List<LancamentoDTO> listarLancamento(UUID id) {
+		List<LancamentoModel> listLancamentoModel = lancamentoServices.listarPorIdInsumo(id);
+		List<LancamentoDTO> list = new ArrayList<>();
+		listLancamentoModel.forEach(item -> list.add(SimpleMapper.INSTANCE.lancamento2LancamentoDTO(item)));
 		return list;
 	}
 }

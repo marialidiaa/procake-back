@@ -79,6 +79,16 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.PUT, "/api/v1/clientes/**").hasAnyAuthority("ROLE_CLIENTE")
 				.requestMatchers(HttpMethod.DELETE, "/api/v1/clientes/**").hasAnyAuthority("ROLE_CLIENTE")
 				
+				.requestMatchers(HttpMethod.GET, "/api/v1/nota-fiscal/**").hasAnyAuthority("ROLE_NOTA_FISCAL", "ROLE_NOTA_FISCAL_LEITURA")
+				.requestMatchers(HttpMethod.POST, "/api/v1/nota-fiscal/**").hasAnyAuthority("ROLE_NOTA_FISCAL")
+				.requestMatchers(HttpMethod.PUT, "/api/v1/nota-fiscal/**").hasAnyAuthority("ROLE_NOTA_FISCAL")
+				.requestMatchers(HttpMethod.DELETE, "/api/v1/nota-fiscal/**").hasAnyAuthority("ROLE_NOTA_FISCAL")
+				
+				.requestMatchers(HttpMethod.GET, "/api/v1/lancamentos/**").hasAnyAuthority("ROLE_LANCAMENTOS", "ROLE_LANCAMENTOS_LEITURA")
+				.requestMatchers(HttpMethod.POST, "/api/v1/lancamentos/**").hasAnyAuthority("ROLE_LANCAMENTOS")
+				.requestMatchers(HttpMethod.PUT, "/api/v1/lancamentos/**").hasAnyAuthority("ROLE_LANCAMENTOS")
+				.requestMatchers(HttpMethod.DELETE, "/api/v1/lancamentos/**").hasAnyAuthority("ROLE_LANCAMENTOS")
+				
 				.requestMatchers(HttpMethod.GET, "/api/v1/roles/**").hasAnyAuthority("ROLE_LEITURA_ROLES")
 				
 				.anyRequest().denyAll()

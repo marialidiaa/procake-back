@@ -23,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.procake.services.IInsumoServices;
 import com.procake.utils.MediaType;
 import com.procake.v1.dtos.InsumoDTO;
+import com.procake.v1.dtos.LancamentoDTO;
 
 import jakarta.validation.Valid;
 
@@ -108,6 +109,14 @@ public class InsumoController {
 		logger.warn("Atualizando insumo com ID " + id);
 		
 		return ResponseEntity.ok().body(insumoServices.atualizar(id, insumo));
+	}
+	
+	@GetMapping(path = "/lancamentos/{id}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public ResponseEntity<List<LancamentoDTO>> listarTodosLancamentos(@PathVariable(value = "id") UUID id){
+		
+		logger.warn("Listando todos os lancamentos do insumo com ID: " + id);
+		
+		return ResponseEntity.ok().body(insumoServices.listarLancamento(id));
 	}
 	
 }
